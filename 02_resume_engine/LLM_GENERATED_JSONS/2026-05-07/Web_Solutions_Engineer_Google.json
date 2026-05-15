@@ -1,0 +1,110 @@
+{
+  "name": "Gorre Dinesh Chandan Reddy",
+  "phone": "7416767453",
+  "email": "gorredinesh21@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/gorre-dinesh-chandan-reddy",
+  "linkedin_display": "linkedin.com/in/dinesh",
+  "github": "https://github.com/gorredinesh21",
+  "github_display": "github.com/gorredinesh21",
+  "education": [
+    {
+      "institute": "Indian Institute of Technology (ISM) Dhanbad",
+      "degree": "Bachelor of Technology in Computer Science",
+      "duration": "Dec 2021 -- May 2025",
+      "location": "Dhanbad, Jharkhand",
+      "details": [
+        "Relevant Coursework: Data Structures and Algorithms (C++), Object-Oriented Programming System(OOPS), Database Managment System(DBMS), Software Engineering,Computer Networks,Deep Learning"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Graduate Engineer Trainee (Data/AI Engineer)",
+      "company": "Reliance Industries Ltd.",
+      "duration": "Aug 2025 -- Present",
+      "location": "Mumbai, India",
+      "points": [
+        "Designed and developed scalable data pipelines, data engineering, and applied AI projects utilizing Google-specific software development tools and technologies.",
+        "Built reliable backends, optimized prompt pipelines, and implemented responsive front-ends using JavaScript, Python, and TypeScript.",
+        "Analyzed problems, developed solutions, and identified dependencies to drive implementation, ensuring reliable and modern full-stack web applications.",
+        "Provided subject-matter expertise, utilized knowledge of relevant technologies, and followed Google's principles, practices, and coding standards."
+      ]
+    },
+    {
+      "role": "Backend/AI Intern",
+      "company": "Pepsales",
+      "duration": "Apr 2024 -- May 2024",
+      "location": "Bengaluru, India",
+      "points": [
+        "Created a Flask application, hosted it on AWS EC2, and demonstrated knowledge of modern web development tools and technologies."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Image-Based Entity Extraction with PyTesseract",
+      "tech_stack": "Python, PyTesseract, os, pandas",
+      "repo": "IEE",
+      "repo_link": "https://github.com/gorredinesh21/ImageEntityExtraction",
+      "points": [
+        "Employed OCR technology to extract key information from product images, demonstrating problem-solving skills and innovative technical solutions.",
+        "Achieved 56% accuracy on the test dataset, showcasing ability to analyze problems and develop effective solutions."
+      ]
+    },
+    {
+      "title": "Mars Landmark Detection System",
+      "tech_stack": "Python, TensorFlow, Keras",
+      "repo": "MLDS",
+      "repo_link": "https://github.com/gorredinesh21/MARS_LANDMAKS",
+      "points": [
+        "Developed an end-to-end deep learning project, utilizing Google-relevant technologies and principles, to detect landmarks in images of Mars."
+      ]
+    }
+  ],
+  "skills": {
+    "languages": [
+      "C",
+      "C++",
+      "Python",
+      "SQL",
+      "JavaScript",
+      "TypeScript"
+    ],
+    "technologies": [
+      "Agentic AI",
+      "PySpark",
+      "Databricks",
+      "Azure Data Factory",
+      "Azure",
+      "GenAI",
+      "OpenCV",
+      "NLP",
+      "MLOps",
+      "Scikit-learn",
+      "Keras",
+      "PyTorch",
+      "TensorFlow",
+      "Git",
+      "Google-specific software development tools"
+    ],
+    "concepts": [
+      "Data Structures and Algorithms",
+      "OOPS",
+      "Machine Learning",
+      "Data Science",
+      "Deep Learning",
+      "Explainable AI",
+      "Operating Systems",
+      "Agile/Scrum",
+      "Full-stack web development",
+      "Backend development",
+      "Frontend development"
+    ]
+  },
+  "achievements": [
+    "JEE Advanced Rank - 2903",
+    "JEE Mains Rank - 4616",
+    "Amazon ML Challenge - Top 200 out of 18500 teams",
+    "Hackfest IIT Dhanbad participant"
+  ]
+}

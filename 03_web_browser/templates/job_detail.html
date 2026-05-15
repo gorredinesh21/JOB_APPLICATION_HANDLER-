@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details - Job Application Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 30px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .score-high { background: linear-gradient(135deg, #10b981, #059669); }
+        .score-medium { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .score-low { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .description-box {
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-success-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        .resume-status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resume-available {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border: 2px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .resume-unavailable {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+            border: 2px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Back Button -->
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+
+        <!-- Header -->
+        <div class="header-section text-center">
+            <h1 class="display-5 fw-bold mb-3">Job Details</h1>
+            <p class="lead mb-0">Complete information about this job opportunity</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-spinner" id="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading job details...</p>
+        </div>
+
+        <!-- Job Content -->
+        <div id="job-content" style="display: none;">
+            <!-- Score Display -->
+            <div class="score-display" id="score-display">
+                <div class="score-number" id="score-number">0</div>
+                <div class="score-label">Match Score</div>
+            </div>
+
+            <!-- Resume Status -->
+            <div class="resume-status" id="resume-status">
+                <!-- Will be populated dynamically -->
+            </div>
+
+            <!-- Basic Information -->
+            <div class="detail-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-info-circle me-2"></i>Job Information
+                </h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Job Title</div>
+                        <div class="info-value" id="job-title">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Company</div>
+                        <div class="info-value" id="company-name">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value" id="location">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Experience Required</div>
+                        <div class="info-value" id="experience">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Source</div>
+                        <div class="info-value" id="source">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Published Date</div>
+                        <div class="info-value" id="published-date">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Description -->
+            <div class="detail-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-file-alt me-2"></i>Job Description
+                </h3>
+                <div class="description-box" id="job-description">
+                    <!-- Job description will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Raw Source Text -->
+            <div class="detail-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-code me-2"></i>Raw Source Text
+                </h3>
+                <div class="description-box" id="raw-source-text">
+                    <!-- Raw source text will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="detail-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-tools me-2"></i>Actions
+                </h3>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="#" id="apply-link" target="_blank" class="btn btn-success-custom">
+                        <i class="fas fa-external-link-alt me-2"></i>Apply Now
+                    </a>
+                    <a href="#" id="resume-link" class="btn btn-primary-custom">
+                        <i class="fas fa-download me-2"></i>Download Resume
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-secondary">
+                        <i class="fas fa-print me-2"></i>Print Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get job ID from URL
+        const urlParts = window.location.pathname.split('/');
+        const jobId = urlParts[urlParts.length - 1];
+
+        // Load job details
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJobDetails(jobId);
+        });
+
+        async function loadJobDetails(jobId) {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('job-content').style.display = 'none';
+
+            try {
+                const response = await fetch(`/api/job/${jobId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Job not found');
+                }
+
+                const job = await response.json();
+                displayJobDetails(job);
+
+            } catch (error) {
+                console.error('Error loading job details:', error);
+                document.getElementById('loading').innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error loading job details: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function displayJobDetails(job) {
+            // Hide loading, show content
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('job-content').style.display = 'block';
+
+            // Score display
+            const score = job.score || 0;
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreNumber = document.getElementById('score-number');
+            
+            scoreNumber.textContent = score;
+            
+            // Set score color class
+            scoreDisplay.className = 'score-display';
+            if (score >= 80) {
+                scoreDisplay.classList.add('score-high');
+            } else if (score >= 60) {
+                scoreDisplay.classList.add('score-medium');
+            } else {
+                scoreDisplay.classList.add('score-low');
+            }
+
+            // Resume status
+            const resumeStatus = document.getElementById('resume-status');
+            if (job.resume_exists) {
+                resumeStatus.className = 'resume-status resume-available';
+                resumeStatus.innerHTML = `
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong>Resume Available</strong> - A tailored resume has been generated for this job.
+                `;
+            } else {
+                resumeStatus.className = 'resume-status resume-unavailable';
+                resumeStatus.innerHTML = `
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Resume Not Generated</strong> - No tailored resume available yet.
+                `;
+            }
+
+            // Basic information
+            document.getElementById('job-title').textContent = job.job_title || 'Not specified';
+            document.getElementById('company-name').textContent = job.company_name || 'Not specified';
+            document.getElementById('location').textContent = job.location !== 'Not specified' ? job.location : 'Not specified';
+            document.getElementById('experience').textContent = job.experience_required && job.experience_required.trim() !== '' ? job.experience_required : 'Not specified';
+            document.getElementById('source').textContent = job.source || 'Unknown';
+            
+            // Format published date
+            const publishedDate = job.published_date;
+            if (publishedDate) {
+                try {
+                    const date = new Date(publishedDate);
+                    document.getElementById('published-date').textContent = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                } catch (e) {
+                    document.getElementById('published-date').textContent = publishedDate;
+                }
+            } else {
+                document.getElementById('published-date').textContent = 'Not specified';
+            }
+
+            // Job description
+            const jobDesc = job.job_description && job.job_description !== 'None' ? job.job_description : 'No detailed job description available.';
+            document.getElementById('job-description').innerHTML = `
+                <p>${jobDesc.replace(/\n/g, '<br>')}</p>
+            `;
+
+            // Raw source text
+            const rawText = job.raw_source_text || 'No raw source text available.';
+            document.getElementById('raw-source-text').innerHTML = `
+                <p>${rawText.replace(/\n/g, '<br>')}</p>
+            `;
+
+            // Apply link
+            const applyLink = document.getElementById('apply-link');
+            if (job.apply_url && job.apply_url.trim() !== '') {
+                applyLink.href = job.apply_url;
+                applyLink.style.display = 'inline-block';
+            } else {
+                applyLink.style.display = 'none';
+            }
+
+            // Resume link
+            const resumeLink = document.getElementById('resume-link');
+            if (job.resume_exists && job.resume_filename) {
+                resumeLink.href = `/download/resume/${job.resume_filename}`;
+                resumeLink.style.display = 'inline-block';
+            } else {
+                resumeLink.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

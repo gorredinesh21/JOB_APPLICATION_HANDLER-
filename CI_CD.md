@@ -4,7 +4,7 @@ This folder has a GitHub Actions pipeline with three stages:
 
 - `CI`: runs on pull requests and pushes to `dev`, `main`, and `master`
 - `Deploy Dev`: runs after CI when code is pushed to `dev`
-- `Deploy Prod`: runs after CI when code is pushed to `main` or `master`
+- `Deploy Prod`: runs after CI when code is pushed to `prod`, `main`, or `master`
 
 ## What CI Checks
 
@@ -24,7 +24,7 @@ git checkout -b dev
 git push origin dev
 ```
 
-Pushes to `dev` trigger the development environment. Merging `dev` into `main` or `master` triggers the production environment.
+Pushes to `dev` trigger the development environment. Merging `dev` into `prod`, `main`, or `master` triggers the production environment.
 
 ## Deploy Hooks
 

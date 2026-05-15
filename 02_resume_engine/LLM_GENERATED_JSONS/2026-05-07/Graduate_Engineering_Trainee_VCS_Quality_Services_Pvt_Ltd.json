@@ -1,0 +1,109 @@
+{
+  "name": "Gorre Dinesh Chandan Reddy",
+  "phone": "7416767453",
+  "email": "gorredinesh21@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/gorre-dinesh-chandan-reddy",
+  "linkedin_display": "linkedin.com/in/dinesh",
+  "github": "https://github.com/gorredinesh21",
+  "github_display": "github.com/gorredinesh21",
+  "education": [
+    {
+      "institute": "Indian Institute of Technology (ISM) Dhanbad",
+      "degree": "Bachelor of Technology in Computer Science",
+      "duration": "Dec 2021 -- May 2025",
+      "location": "Dhanbad, Jharkhand",
+      "details": [
+        "Relevant Coursework: Data Structures and Algorithms (C++), Object-Oriented Programming System(OOPS), Database Managment System(DBMS), Software Engineering,Computer Networks,Deep Learning"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Graduate Engineer Trainee (Data/AI Engineer)",
+      "company": "Reliance Industries Ltd.",
+      "duration": "Aug 2025 -- Present",
+      "location": "Mumbai, India",
+      "points": [
+        "Worked on end-to-end Data Engineering and Applied AI projects, including ML model development, data pipelines, and LLM-based solutions.",
+        "Built RAG (Retrieval-Augmented Generation) systems using vector databases like ChromaDB, text splitters, retrievers, and Hugging Face LLM API integration.",
+        "Developed multiple ML pipelines, including regression models, neural networks, entity extraction, and unit-value mapping using NLP.",
+        "Implemented production-grade Python backends, optimized prompt pipelines, and contributed to internal AI tools and automation workflows."
+      ]
+    },
+    {
+      "role": "Backend/AI Intern",
+      "company": "Pepsales",
+      "duration": "Apr 2024 -- May 2024",
+      "location": "Bengaluru, India",
+      "points": [
+        "Created the Flask application and hosted it on AWS EC2.",
+        "Developed skills in backend development, AI, and cloud computing."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Image-Based Entity Extraction with PyTesseract",
+      "tech_stack": "Python, PyTesseract, os, pandas",
+      "repo": "IEE",
+      "repo_link": "https://github.com/gorredinesh21/ImageEntityExtraction",
+      "points": [
+        "Employed OCR technology to extract key information (weight, volume, etc.) from product images.",
+        "Achieved 56% accuracy on the test dataset, demonstrating model effectiveness in extracting relevant data despite image quality challenges.",
+        "Processed a large dataset, handling 130,000 test images, extracting information from 68,000 images, and identifying potential challenges in 55,000 images."
+      ]
+    },
+    {
+      "title": "Mars Landmark Detection System",
+      "tech_stack": "Python, TensorFlow, Keras",
+      "repo": "MLDS",
+      "repo_link": "https://github.com/gorredinesh21/MARS_LANDMAKS",
+      "points": [
+        "Developed an end-to-end deep learning project using TensorFlow and Keras to detect landmarks in images of Mars.",
+        "Trained a model to classify images into eight classes representing various Martian landmarks, such as craters, valleys, mountains, and plateaus.",
+        "Handled over 8,200 training images and 2,000 testing images, achieving an accuracy of 89% on the test dataset."
+      ]
+    }
+  ],
+  "skills": {
+    "languages": [
+      "C",
+      "C++",
+      "Python",
+      "SQL"
+    ],
+    "technologies": [
+      "Agentic AI",
+      "PySpark",
+      "Databricks",
+      "Azure Data Factory",
+      "Azure",
+      "GenAI",
+      "OpenCV",
+      "NLP",
+      "MLOps",
+      "Scikit-learn",
+      "Keras",
+      "PyTorch",
+      "TensorFlow",
+      "Git",
+      "Flask"
+    ],
+    "concepts": [
+      "Data Structures and Algorithms",
+      "OOPS",
+      "Machine Learning",
+      "Data Science",
+      "Deep Learning",
+      "Explainable AI",
+      "Operating Systems",
+      "Agile/Scrum"
+    ]
+  },
+  "achievements": [
+    "JEE Advanced Rank - 2903",
+    "JEE Mains Rank - 4616",
+    "Amazon ML Challenge - Top 200 out of 18500 teams",
+    "Hackfest IIT Dhanbad participant"
+  ]
+}
