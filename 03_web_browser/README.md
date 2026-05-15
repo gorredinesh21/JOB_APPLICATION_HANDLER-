@@ -69,14 +69,16 @@ http://localhost:5000
 ### **Database Path**
 The app expects the SQLite database at:
 ```
-/home/dinesh/HERMES/08_job_application_pipeline/jobs_new.db
+../jobs_new.db
 ```
+Override this with `JOBS_DB_PATH` when needed.
 
 ### **Resume Path**
 Generated resumes are expected in:
 ```
-/home/dinesh/HERMES/08_job_application_pipeline/02_resume_engine/LLM_COMPILED_PDFS/
+../02_resume_engine/LLM_COMPILED_PDFS/
 ```
+Override this with `RESUME_BASE_PATH` when needed.
 
 ## 📊 API Endpoints
 

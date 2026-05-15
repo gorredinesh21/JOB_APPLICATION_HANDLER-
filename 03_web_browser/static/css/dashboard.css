@@ -593,3 +593,219 @@ body::before {
     transform: scale(1.05);
     transition: transform 0.3s ease;
 }
+
+/* Admin Control Room */
+.admin-page .header-section h1 {
+    font-size: 2.75rem;
+}
+
+.admin-panel {
+    background: rgba(255, 255, 255, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: var(--shadow-soft);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.panel-header h2 {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.panel-pill,
+.status-pill {
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 8px 12px;
+    text-transform: uppercase;
+}
+
+.panel-pill {
+    background: rgba(47, 27, 20, 0.35);
+}
+
+.stage-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pipeline-options {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 16px;
+}
+
+.pipeline-options label {
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.pipeline-options span {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.stage-button,
+.run-item {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    color: #2f1b14;
+    display: flex;
+    gap: 10px;
+    padding: 14px;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.stage-button:hover,
+.run-item:hover,
+.run-item.active {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+}
+
+.stage-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.stage-button i {
+    color: #8b0000;
+    font-size: 1.1rem;
+}
+
+.run-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.run-item {
+    justify-content: space-between;
+}
+
+.run-item small {
+    color: #666;
+    display: block;
+    margin-top: 4px;
+}
+
+.status-queued {
+    background: #64748b;
+}
+
+.status-running {
+    background: #f59e0b;
+}
+
+.status-completed {
+    background: #10b981;
+}
+
+.status-failed {
+    background: #ef4444;
+}
+
+.muted-panel {
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 12px;
+    color: #666;
+    padding: 16px;
+}
+
+.run-log {
+    background: rgba(31, 20, 18, 0.9);
+    border-radius: 12px;
+    color: #f8fafc;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    margin: 0;
+    max-height: 420px;
+    overflow: auto;
+    padding: 16px;
+    white-space: pre-wrap;
+}
+
+.db-filters {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(220px, 1.8fr) repeat(4, minmax(120px, 1fr)) auto;
+    margin-bottom: 18px;
+}
+
+.db-table-wrap {
+    background: rgba(255, 255, 255, 0.86);
+    border-radius: 12px;
+    max-height: 620px;
+    overflow: auto;
+}
+
+.admin-table {
+    margin: 0;
+}
+
+.admin-table th {
+    background: rgba(139, 0, 0, 0.92);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.admin-table td {
+    color: #2f1b14;
+    vertical-align: middle;
+}
+
+.table-subtext {
+    color: #666;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+.score-mini {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+    color: #fff;
+    display: inline-flex;
+    font-weight: 800;
+    min-width: 42px;
+    padding: 7px 9px;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .db-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .stage-grid,
+    .pipeline-options,
+    .db-filters {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Control Room</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container admin-page">
+        <div class="header-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-sliders me-3"></i>Pipeline Control Room
+                    </h1>
+                    <p class="lead mb-0">Run pipeline stages and inspect the job database.</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="/" class="btn btn-light">
+                        <i class="fas fa-arrow-left me-2"></i>Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <section class="admin-panel">
+                    <div class="panel-header">
+                        <h2>Pipeline</h2>
+                        <button id="refresh-runs-btn" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                    </div>
+
+                    <div class="stage-grid">
+                        {% for stage in stages %}
+                        <button class="stage-button" data-stage="{{ stage.key }}">
+                            <i class="fas {% if stage.key == 'full_pipeline' %}fa-play-circle{% else %}fa-terminal{% endif %}"></i>
+                            <span>{{ stage.label }}</span>
+                        </button>
+                        {% endfor %}
+                    </div>
+
+                    <div class="pipeline-options">
+                        <label>
+                            <span>Start Date</span>
+                            <input type="date" id="pipeline-start-date" class="form-control search-box">
+                        </label>
+                        <label>
+                            <span>End Date</span>
+                            <input type="date" id="pipeline-end-date" class="form-control search-box">
+                        </label>
+                    </div>
+
+                    <div class="run-list" id="run-list">
+                        <div class="muted-panel">No runs yet.</div>
+                    </div>
+                </section>
+
+                <section class="admin-panel mt-4">
+                    <div class="panel-header">
+                        <h2>Run Log</h2>
+                        <span id="selected-run-label" class="panel-pill">Latest</span>
+                    </div>
+                    <pre class="run-log" id="run-log">Choose a run to view logs.</pre>
+                </section>
+            </div>
+
+            <div class="col-lg-7">
+                <section class="admin-panel">
+                    <div class="panel-header">
+                        <h2>Database</h2>
+                        <span id="db-count" class="panel-pill">0 rows</span>
+                    </div>
+
+                    <div class="db-filters">
+                        <input type="text" id="db-search" class="form-control search-box" placeholder="Search title, company, location, description">
+                        <select id="db-source" class="form-select">
+                            <option value="">All Sources</option>
+                        </select>
+                        <select id="db-resume" class="form-select">
+                            <option value="">All Resume States</option>
+                            <option value="available">Resume Ready</option>
+                            <option value="unavailable">No Resume</option>
+                        </select>
+                        <input type="number" id="db-min-score" class="form-control search-box" min="0" max="100" placeholder="Min score">
+                        <input type="number" id="db-max-score" class="form-control search-box" min="0" max="100" placeholder="Max score">
+                        <button id="db-apply-btn" class="btn btn-primary-custom">
+                            <i class="fas fa-filter me-2"></i>Apply
+                        </button>
+                    </div>
+
+                    <div class="table-responsive db-table-wrap">
+                        <table class="table table-hover align-middle admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Score</th>
+                                    <th>Role</th>
+                                    <th>Company</th>
+                                    <th>Source</th>
+                                    <th>Fetched</th>
+                                    <th>Resume</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="db-table-body">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <button id="db-prev-btn" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-chevron-left me-1"></i>Prev
+                        </button>
+                        <span id="db-page-label" class="panel-pill">Page 1</span>
+                        <button id="db-next-btn" class="btn btn-outline-light btn-sm">
+                            Next<i class="fas fa-chevron-right ms-1"></i>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

@@ -391,21 +391,26 @@
 
             // Job description
             const jobDesc = job.job_description && job.job_description !== 'None' ? job.job_description : 'No detailed job description available.';
-            document.getElementById('job-description').innerHTML = `
-                <p>${jobDesc.replace(/\n/g, '<br>')}</p>
-            `;
+            setMultilineText('job-description', jobDesc);
 
             // Raw source text
             const rawText = job.raw_source_text || 'No raw source text available.';
-            document.getElementById('raw-source-text').innerHTML = `
-                <p>${rawText.replace(/\n/g, '<br>')}</p>
-            `;
+            setMultilineText('raw-source-text', rawText);
 
             // Apply link
             const applyLink = document.getElementById('apply-link');
             if (job.apply_url && job.apply_url.trim() !== '') {
-                applyLink.href = job.apply_url;
-                applyLink.style.display = 'inline-block';
+                try {
+                    const url = new URL(job.apply_url);
+                    if (url.protocol === 'http:' || url.protocol === 'https:') {
+                        applyLink.href = job.apply_url;
+                        applyLink.style.display = 'inline-block';
+                    } else {
+                        applyLink.style.display = 'none';
+                    }
+                } catch (e) {
+                    applyLink.style.display = 'none';
+                }
             } else {
                 applyLink.style.display = 'none';
             }
@@ -418,6 +423,12 @@
             } else {
                 resumeLink.style.display = 'none';
             }
+        }
+
+        function setMultilineText(elementId, value) {
+            const element = document.getElementById(elementId);
+            element.textContent = value || '';
+            element.style.whiteSpace = 'pre-wrap';
         }
     </script>
 </body>

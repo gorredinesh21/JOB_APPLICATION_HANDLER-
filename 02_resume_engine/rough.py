@@ -14,9 +14,11 @@ from typing import List, Optional
 # =========================================================
 # 🔧 CONFIG
 # =========================================================
-DB_PATH = "/home/dinesh/HERMES/08_job_application_pipeline/jobs_new.db"
-BASE_RESUME_JSON = "base_resume.json"
-OUTPUT_DIR = "LLM_GENERATED_JSONS"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.getenv("JOBS_DB_PATH", os.path.join(BASE_DIR, "jobs_new.db"))
+BASE_RESUME_JSON = os.path.join(SCRIPT_DIR, "base_resume.json")
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "LLM_GENERATED_JSONS")
 
 HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
@@ -282,6 +284,5 @@ def main():
 # =========================================================
 if __name__ == "__main__":
     main()
-
 
 

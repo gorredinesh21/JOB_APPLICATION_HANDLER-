@@ -3,6 +3,7 @@ import sqlite3
 import os
 import re
 import time
+import argparse
 from datetime import datetime
 
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
@@ -15,9 +16,11 @@ from typing import List, Optional
 # =========================================================
 # 🔧 CONFIG
 # =========================================================
-DB_PATH = "/home/dinesh/HERMES/08_job_application_pipeline/jobs_new.db"
-BASE_RESUME_JSON = "base_resume.json"
-OUTPUT_DIR = "LLM_GENERATED_JSONS"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.getenv("JOBS_DB_PATH", os.path.join(BASE_DIR, "jobs_new.db"))
+BASE_RESUME_JSON = os.path.join(SCRIPT_DIR, "base_resume.json")
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "LLM_GENERATED_JSONS")
 
 HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
@@ -99,9 +102,23 @@ def load_resume():
 # =========================================================
 # 🧠 FETCH JOBS (UPDATED)
 # =========================================================
-def fetch_jobs():
+def parse_args():
+    parser = argparse.ArgumentParser(description="Generate tailored resume JSON files.")
+    parser.add_argument(
+        "--date",
+        default=datetime.now().strftime("%Y-%m-%d"),
+        help="Fetch jobs for this date in YYYY-MM-DD format.",
+    )
+    parser.add_argument(
+        "--min-score",
+        type=int,
+        default=65,
+        help="Minimum score required to generate a resume.",
+    )
+    return parser.parse_args()
 
-    today = datetime.now().strftime("%Y-%m-%d")
+
+def fetch_jobs(run_date, min_score):
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -109,9 +126,9 @@ def fetch_jobs():
     cursor.execute("""
         SELECT job_title, company_name, job_description, raw_source_text, experience_required
         FROM job_postings
-        WHERE score > 65
+        WHERE score > ?
         AND DATE(fetched_at) = ?
-    """, (today,))
+    """, (min_score, run_date))
 
     rows = cursor.fetchall()
     conn.close()
@@ -248,15 +265,14 @@ def clean_filename(text):
 # 🚀 MAIN (UPDATED)
 # =========================================================
 def main():
-
-    today = datetime.now().strftime("%Y-%m-%d")
+    args = parse_args()
 
     # 🔥 create dated folder
-    output_dir = os.path.join(OUTPUT_DIR, today)
+    output_dir = os.path.join(OUTPUT_DIR, args.date)
     os.makedirs(output_dir, exist_ok=True)
 
     resume = load_resume()
-    jobs = fetch_jobs()
+    jobs = fetch_jobs(args.date, args.min_score)
 
     print(f"[INFO] Total jobs selected: {len(jobs)}")
 
