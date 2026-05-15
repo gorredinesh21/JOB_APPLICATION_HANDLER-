@@ -1,0 +1,150 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{fontawesome5}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\input{glyphtounicode}
+\usepackage[default]{lato}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule\vspace{-5pt}]
+
+\pdfgentounicode=1
+
+% ================= CUSTOM COMMANDS =================
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+    \begin{tabularx}{\textwidth}{X r}
+      \textbf{#1} & #2 \\
+      \textit{#3} & \textit{#4} \\
+    \end{tabularx}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+    \begin{tabularx}{\textwidth}{X r}
+      #1 & #2 \\
+    \end{tabularx}
+}
+
+\newcommand{\resumeItem}[1]{\item #1}
+
+% ================= DOCUMENT START =================
+\begin{document}
+
+%----------HEADING----------%
+\begin{tabularx}{\textwidth}{@{} X r @{}}
+\textbf{\Huge GORRE DINESH CHANDAN REDDY} \\
+\small 7416767453 \\
+\href{mailto:gorredinesh21@gmail.com}{gorredinesh21@gmail.com} \quad
+\href{https://linkedin.com/in/dinesh}{linkedin.com/in/dinesh} \quad
+\href{https://github.com/gorredinesh21}{github.com/gorredinesh21}
+\end{tabularx}
+
+%-----------EDUCATION-----------%
+\section{Education}
+\resumeSubHeadingListStart
+\resumeSubheading
+{Indian Institute of Technology (ISM) Dhanbad}{Dec 2021--May 2025}
+{B.Tech in Computer Science}{Dhanbad, Jharkhand}
+\resumeItemListStart
+\resumeItem{\textbf{Relevant Coursework:} DSA, OOPS, DBMS, Software Engineering, CN, Deep Learning}
+\resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------%
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+{Graduate Engineer Trainee (Data/AI Engineer)}{Aug 2025 -- Present}
+{Reliance Industries Ltd.}{Mumbai, India}
+\resumeItemListStart
+\resumeItem{Worked on end-to-end Data Engineering and Applied AI projects}
+\resumeItem{Built RAG systems using ChromaDB and optimized pipelines with Databricks + ADF}
+\resumeItem{Developed ML pipelines and NLP systems}
+\resumeItem{Built production-grade Python backends and AI tools}
+\resumeItemListEnd
+
+\resumeSubheading
+{Backend/AI Intern}{Apr 2024 -- May 2024}
+{Pepsales}{Bengaluru, India}
+\resumeItemListStart
+\resumeItem{Developed Flask app and deployed on AWS EC2}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------%
+\section{Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{\textbf{Image-Based Entity Extraction} | Python, OCR}{}
+\resumeItemListStart
+\resumeItem{Extracted weight/volume from images using OCR}
+\resumeItem{Achieved 56\% accuracy on dataset}
+\resumeItem{Processed 130K images pipeline}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{\textbf{Mars Landmark Detection} | TensorFlow, Keras}{}
+\resumeItemListStart
+\resumeItem{Built DL model for Mars image classification}
+\resumeItem{Achieved 89\% accuracy}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------%
+\section{Technical Skills}
+\begin{itemize}
+\item Languages: C, C++, Python, SQL
+\item Technologies: PySpark, Databricks, Azure, NLP, TensorFlow, PyTorch
+\item Concepts: ML, DL, Data Science, OS, Agile
+\end{itemize}
+
+%-----------ACHIEVEMENTS-----------%
+\section{Achievements}
+\begin{itemize}
+\item JEE Advanced Rank - 2903
+\item JEE Mains Rank - 4616
+\item Amazon ML Challenge - Top 200 / 18500 teams
+\item Hackfest IIT Dhanbad Participant
+\end{itemize}
+
+\end{document}

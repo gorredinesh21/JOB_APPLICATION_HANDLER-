@@ -1,0 +1,51 @@
+GORRE DINESH CHANDAN REDDY
+ 7416767453
+# gorredinesh21@gmail.com ï linkedin.com/in/dinesh § github.com/gorredinesh21
+
+Education
+Indian Institue of Technology (Indian School of Mines) Dhanbad Dec 2021–May 2025
+Bachelor of Technology in Computer Science Dhanbad, Jharkhand
+• Relevant Coursework: Data Structures and Algorithms (C++), Object-Oriented Programming System(OOPS),
+Database Managment System(DBMS), Software Engineering,Computer Networks,Deep Learning
+
+Experience
+Graduate Engineer Trainee (Data/AI Engineer) Aug 2025 – Present
+Reliance Industries Ltd. Mumbai, India
+• Working on end-to-end Data Engineering and Applied AI projects, including ML model development, data pipelines,
+and LLM-based solutions. • Built RAG (Retrieval-Augmented Generation) systems using vector databases such as
+ChromaDB, optimizing data pipelines with Databricks and Azure Data Factory (ADF) for enterprise-scale
+deployments.
+• Developed multiple ML pipelines including regression models, neural networks, entity extraction, and unit-value
+mapping using NLP.
+• Implemented production-grade Python backends, optimized prompt pipelines, and contributed to internal AI tools
+and automation workflows.
+
+Backend/AI Intern April 2024 – May 2024
+Pepsales Bengaluru, Karnataka
+• Pepsales is an AI platform that enables B2B SaaS sales teams to generate personalized product demos for prospects.
+• Created the Flask application and hosted it on AWS EC2.
+
+Projects
+Image-Based Entity Extraction with PyTesseract | Python, PyTesseract, os, pandas—Repository:IEE
+• Successfully employed OCR technology to extract key information (weight, volume, etc.) from product images.
+• Achieved 56% accuracy on the test dataset: Demonstrated model effectiveness in extracting relevant data despite
+image quality challenges.
+• Processed a large dataset: Successfully handled a significant dataset of 130,000 test images, extracting information
+from 68,000 images and identifying potential challenges in 55,000 images.
+
+Mars Landmark Detection System | Python, TensorFlow, Keras| Repository:MLDS
+• Developed an end-to-end deep learning project using TensorFlow and Keras to detect landmarks in images of Mars.
+• Trained a model to classify images into eight classes representing various Martian landmarks, such as craters, valleys,
+mountains, and plateaus.
+• Handled over 8,200 training images and 2,000 testing images, achieving an accuracy of 89% on the test dataset.
+
+Technical Skills
+Languages: C, C++, Python, SQL Technologies: Agentic AI, PySpark, Databricks, Azure Data Factory (ADF), Azure, GenAI,
+OpenCV, NLP, MLOps, Scikit-learn, Keras, PyTorch, TensorFlow, Git Concepts: Data Structures and Algorithms, OOPS,
+Machine Learning, Data Science, Deep Learning, Explainable AI, Operating Systems, Agile/Scrum Development
+
+ACHIEVEMENTS
+JEE ADVANCED RANK -2903
+JEE MAINS RANK -4616
+Participated in AMAZON ML CHALLENGE .Secured a position in top 200 teams out of the 18500 Teams.
+Participated in Hackathon organized as a part of HACKFEST 23, annual Hackfest of IIT Dhanbad.

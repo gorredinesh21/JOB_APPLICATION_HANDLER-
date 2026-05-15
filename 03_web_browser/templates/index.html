@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracking Dashboard</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4 fw-bold mb-3">
+                        <i class="fas fa-briefcase me-3"></i>Job Application Tracker
+                    </h1>
+                    <p class="lead mb-0">AI-Powered Resume Generation & Job Application Pipeline</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="text-white">
+                        <small>Last Updated</small>
+                        <div id="last-updated" class="fw-bold">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4" id="stats-section">
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-list-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="total-jobs">0</div>
+                            <div class="text-muted">Total Jobs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="avg-score">0</div>
+                            <div class="text-muted">Avg Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="resume-count">0</div>
+                            <div class="text-muted">Resumes Generated</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-trophy fa-2x text-warning"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="high-score-jobs">0</div>
+                            <div class="text-muted">High Score Jobs (≥80)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="filter-section">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" id="search-input" class="form-control border-start-0 search-box" 
+                               placeholder="Search jobs, companies...">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <select id="score-filter" class="form-select">
+                        <option value="">All Scores</option>
+                        <option value="90-100">90-100 (Excellent)</option>
+                        <option value="80-89">80-89 (Good)</option>
+                        <option value="70-79">70-79 (Fair)</option>
+                        <option value="0-69">0-69 (Low)</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="source-filter" class="form-select">
+                        <option value="">All Sources</option>
+                        <option value="Telegram">Telegram</option>
+                        <option value="Gmail">Gmail</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="resume-filter" class="form-select">
+                        <option value="">All Jobs</option>
+                        <option value="true">With Resume</option>
+                        <option value="false">Without Resume</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button id="refresh-btn" class="btn btn-primary-custom w-100">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading job data...</p>
+        </div>
+
+        <!-- Jobs Grid -->
+        <div id="jobs-container">
+            <!-- Jobs will be loaded here -->
+        </div>
+    </div>
+
+    <!-- External JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

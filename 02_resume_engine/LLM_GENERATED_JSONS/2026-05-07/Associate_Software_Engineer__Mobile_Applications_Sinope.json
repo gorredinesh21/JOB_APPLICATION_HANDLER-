@@ -1,0 +1,109 @@
+{
+  "name": "Gorre Dinesh Chandan Reddy",
+  "phone": "7416767453",
+  "email": "gorredinesh21@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/gorre-dinesh-chandan-reddy",
+  "linkedin_display": "linkedin.com/in/dinesh",
+  "github": "https://github.com/gorredinesh21",
+  "github_display": "github.com/gorredinesh21",
+  "education": [
+    {
+      "institute": "Indian Institute of Technology (ISM) Dhanbad",
+      "degree": "Bachelor of Technology in Computer Science",
+      "duration": "Dec 2021 -- May 2025",
+      "location": "Dhanbad, Jharkhand",
+      "details": [
+        "Relevant Coursework: Data Structures and Algorithms (C++), Object-Oriented Programming System(OOPS), Database Managment System(DBMS), Software Engineering,Computer Networks,Deep Learning"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Graduate Engineer Trainee (Data/AI Engineer)",
+      "company": "Reliance Industries Ltd.",
+      "duration": "Aug 2025 -- Present",
+      "location": "Mumbai, India",
+      "points": [
+        "Developed robust and scalable solutions using Python, ensuring high-quality code deliverables.",
+        "Collaborated with cross-functional teams to design, develop, and deploy AI/ML models and data pipelines.",
+        "Optimized application performance, improved code robustness, and fixed bugs using unit testing."
+      ]
+    },
+    {
+      "role": "Backend/AI Intern",
+      "company": "Pepsales",
+      "duration": "Apr 2024 -- May 2024",
+      "location": "Bengaluru, India",
+      "points": [
+        "Designed and developed a Flask application, deploying it on AWS EC2, and ensuring high availability and scalability.",
+        "Worked on bug fixing, improving application performance, and collaborating with teams to define and ship new features."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Image-Based Entity Extraction with PyTesseract",
+      "tech_stack": "Python, PyTesseract, os, pandas",
+      "repo": "IEE",
+      "repo_link": "https://github.com/gorredinesh21/ImageEntityExtraction",
+      "points": [
+        "Employed OCR technology to extract key information from product images, developing an adaptive solution for mobile devices.",
+        "Processed a large dataset, achieving 56% accuracy on the test dataset, and identifying potential challenges."
+      ]
+    },
+    {
+      "title": "Mars Landmark Detection System",
+      "tech_stack": "Python, TensorFlow, Keras",
+      "repo": "MLDS",
+      "repo_link": "https://github.com/gorredinesh21/MARS_LANDMAKS",
+      "points": [
+        "Developed an end-to-end deep learning project, training a model to classify images into eight classes representing Martian landmarks.",
+        "Handled over 8,200 training images and 2,000 testing images, achieving 89% accuracy on the test dataset."
+      ]
+    }
+  ],
+  "skills": {
+    "languages": [
+      "C",
+      "C++",
+      "Python",
+      "SQL"
+    ],
+    "technologies": [
+      "Agentic AI",
+      "PySpark",
+      "Databricks",
+      "Azure Data Factory",
+      "Azure",
+      "GenAI",
+      "OpenCV",
+      "NLP",
+      "MLOps",
+      "Scikit-learn",
+      "Keras",
+      "PyTorch",
+      "TensorFlow",
+      "Git",
+      "Mobile Development",
+      "Android",
+      "iOS"
+    ],
+    "concepts": [
+      "Data Structures and Algorithms",
+      "OOPS",
+      "Machine Learning",
+      "Data Science",
+      "Deep Learning",
+      "Explainable AI",
+      "Operating Systems",
+      "Agile/Scrum",
+      "Mobile Platforms"
+    ]
+  },
+  "achievements": [
+    "JEE Advanced Rank - 2903",
+    "JEE Mains Rank - 4616",
+    "Amazon ML Challenge - Top 200 out of 18500 teams",
+    "Hackfest IIT Dhanbad participant"
+  ]
+}

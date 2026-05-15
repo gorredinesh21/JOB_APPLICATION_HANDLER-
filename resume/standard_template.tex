@@ -1,0 +1,161 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{fontawesome5}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\input{glyphtounicode}
+\usepackage[default]{lato}
+
+% ===== GLOBAL COMPRESSION =====
+\linespread{0.92}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ===== MARGINS (MORE COMPACT) =====
+\addtolength{\oddsidemargin}{-0.65in}
+\addtolength{\evensidemargin}{-0.65in}
+\addtolength{\textwidth}{1.3in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.5in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0pt}
+
+% ===== REMOVE EXTRA SPACING =====
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\itemsep}{1pt}
+
+% ===== ULTRA-COMPACT LISTS =====
+\setlist[itemize]{leftmargin=*, nosep}
+
+% ===== SECTION SPACING =====
+\titleformat{\section}{
+  \vspace{-8pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule\vspace{-6pt}]
+
+\pdfgentounicode=1
+
+% ================= CUSTOM COMMANDS =================
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*, nosep]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=*, nosep]}
+\newcommand{\resumeItemListEnd}{\end{itemize}}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+    \vspace{-2pt}
+    \begin{tabularx}{\textwidth}{X r}
+      \textbf{#1} & #2 \\
+      \textit{#3} & \textit{#4} \\
+    \end{tabularx}
+    \vspace{-4pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+    \vspace{-2pt}
+    \begin{tabularx}{\textwidth}{X r}
+      #1 & #2 \\
+    \end{tabularx}
+    \vspace{-4pt}
+}
+
+\newcommand{\resumeItem}[1]{\item #1}
+
+% ================= DOCUMENT =================
+\begin{document}
+
+% ===== HEADER =====
+\begin{tabularx}{\textwidth}{@{} X r @{}}
+\textbf{\Huge <<name>>} \\
+\small <<phone>> \\
+\href{mailto:<<email>>}{<<email>>} \quad
+\href{<<linkedin>>}{<<linkedin_display>>} \quad
+\href{<<github>>}{<<github_display>>}
+\end{tabularx}
+
+\vspace{-6pt}
+
+% ===== EDUCATION =====
+\section{Education}
+\resumeSubHeadingListStart
+<<% for edu in education %>>
+\resumeSubheading
+{<<edu.institute>>}{<<edu.duration>>}
+{<<edu.degree>>}{<<edu.location>>}
+\resumeItemListStart
+<<% for d in edu.details %>>
+\resumeItem{<<d>>}
+<<% endfor %>>
+\resumeItemListEnd
+<<% endfor %>>
+\resumeSubHeadingListEnd
+
+% ===== EXPERIENCE =====
+\section{Experience}
+\resumeSubHeadingListStart
+<<% for exp in experience %>>
+\resumeSubheading
+{<<exp.role>>}{<<exp.duration>>}
+{<<exp.company>>}{<<exp.location>>}
+\resumeItemListStart
+<<% for point in exp.points %>>
+\resumeItem{<<point>>}
+<<% endfor %>>
+\resumeItemListEnd
+<<% endfor %>>
+\resumeSubHeadingListEnd
+
+% ===== PROJECTS =====
+\section{Projects}
+\resumeSubHeadingListStart
+<<% for proj in projects %>>
+\resumeProjectHeading
+{\textbf{<<proj.title>>} $|$ \emph{<<proj.tech_stack>>}
+<<% if proj.repo is defined and proj.repo %>>
+$|$ \textbf{Repository:}\href{<<proj.repo_link>>}{<<proj.repo>>}
+<<% endif %>>
+}{}
+\resumeItemListStart
+<<% for point in proj.points %>>
+\resumeItem{<<point>>}
+<<% endfor %>>
+\resumeItemListEnd
+<<% endfor %>>
+\resumeSubHeadingListEnd
+
+% ===== SKILLS =====
+\section{Technical Skills}
+\begin{itemize}[nosep]
+\item Languages: <<skills.languages | join(", ")>>
+\item Technologies: <<skills.technologies | join(", ")>>
+\item Concepts: <<skills.concepts | join(", ")>>
+\end{itemize}
+
+% ===== ACHIEVEMENTS =====
+\section{Achievements}
+\begin{itemize}[nosep]
+<<% for ach in achievements %>>
+\item <<ach>>
+<<% endfor %>>
+\end{itemize}
+
+\end{document}

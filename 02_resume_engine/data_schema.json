@@ -1,0 +1,79 @@
+{
+  "name": "",
+  "phone": "",
+  "email": "",
+
+  "linkedin": "",
+  "linkedin_display": "",
+
+  "github": "",
+  "github_display": "",
+
+  "education": [
+    {
+      "institute": "",
+      "degree": "",
+      "duration": "",
+      "location": "",
+      "details": [
+        ""
+      ]
+    }
+  ],
+
+  "experience": [
+    {
+      "role": "",
+      "company": "",
+      "duration": "",
+      "location": "",
+      "points": [
+        ""
+      ]
+    },
+    {
+      "role": "",
+      "company": "",
+      "duration": "",
+      "location": "",
+      "points": [
+        ""
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "title": "",
+      "tech_stack": "",
+      "repo": "",
+      "repo_link": "",
+      "points": [
+        ""
+      ]
+    },
+    {
+      "title": "",
+      "tech_stack": "",
+      "repo": "",
+      "repo_link": "",
+      "points": [
+        ""
+      ]
+    }
+  ],
+
+  "skills": {
+    "languages": [""],
+    "technologies": [
+      ""
+    ],
+    "concepts": [
+      ""
+    ]
+  },
+
+  "achievements": [
+    ""
+  ]
+}
