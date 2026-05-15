@@ -1,0 +1,99 @@
+name: Job Application Pipeline CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - master
+  pull_request:
+    branches:
+      - dev
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: 03_web_browser/requirements.txt
+
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r 03_web_browser/requirements.txt
+
+      - name: Check Python syntax
+        run: python -m compileall 01_job_sourcing 02_job_filtering 02_resume_engine 03_web_browser resume
+
+      - name: Validate Flask app imports
+        run: |
+          python - <<'PY'
+          import importlib.util
+
+          spec = importlib.util.spec_from_file_location("dashboard_app", "03_web_browser/app.py")
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+
+          routes = sorted(rule.rule for rule in module.app.url_map.iter_rules())
+          required_routes = {"/", "/api/jobs", "/api/stats"}
+          missing_routes = required_routes.difference(routes)
+          if missing_routes:
+              raise SystemExit(f"Missing routes: {sorted(missing_routes)}")
+          PY
+
+      - name: Validate resume template inputs
+        working-directory: resume
+        run: |
+          test -f data_schema.json
+          test -f standard_template.tex
+          python - <<'PY'
+          import json
+
+          with open("data_schema.json", encoding="utf-8") as handle:
+              json.load(handle)
+          PY
+
+  deploy-dev:
+    name: Deploy Dev
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run development deploy hook
+        run: ./scripts/deploy.sh dev
+
+  deploy-prod:
+    name: Deploy Prod
+    needs: ci
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run production deploy hook
+        run: ./scripts/deploy.sh prod
