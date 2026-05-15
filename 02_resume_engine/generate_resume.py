@@ -1,19 +1,32 @@
 import json
 import subprocess
 import os
+import argparse
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
 
 # =========================================================
 # 🔧 CONFIGURATION
 # =========================================================
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 CONFIG = {
-    "JSON_ROOT": "LLM_GENERATED_JSONS",
-    "OUTPUT_ROOT": "LLM_COMPILED_PDFS",
-    "TEMPLATE_PATH": "standard_template.tex",
-    "BUILD_DIR": "build",
-    "LATEX_COMPILER": "pdflatex"
+    "JSON_ROOT": os.path.join(SCRIPT_DIR, "LLM_GENERATED_JSONS"),
+    "OUTPUT_ROOT": os.path.join(SCRIPT_DIR, "LLM_COMPILED_PDFS"),
+    "TEMPLATE_PATH": os.path.join(SCRIPT_DIR, "standard_template.tex"),
+    "BUILD_DIR": os.path.join(SCRIPT_DIR, "build"),
+    "LATEX_COMPILER": os.getenv("LATEX_COMPILER", "pdflatex")
 }
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Compile tailored resume JSON files to PDFs.")
+    parser.add_argument(
+        "--date",
+        default=datetime.now().strftime("%Y-%m-%d"),
+        help="Compile JSON files for this date in YYYY-MM-DD format.",
+    )
+    return parser.parse_args()
 
 # =========================================================
 # 🧠 Escape LaTeX special characters
@@ -66,7 +79,7 @@ def load_json(json_path):
 def render_latex(data, template_path, output_tex):
 
     env = Environment(
-        loader=FileSystemLoader("."),
+        loader=FileSystemLoader(os.path.dirname(template_path)),
         block_start_string='<<%',
         block_end_string='%>>',
         variable_start_string='<<',
@@ -76,7 +89,7 @@ def render_latex(data, template_path, output_tex):
         autoescape=False
     )
 
-    template = env.get_template(template_path)
+    template = env.get_template(os.path.basename(template_path))
     rendered_tex = template.render(**data)
 
     with open(output_tex, "w") as f:
@@ -115,11 +128,10 @@ def compile_pdf(tex_file, build_dir, output_pdf, compiler="pdflatex"):
 # 🚀 MAIN
 # =========================================================
 def main():
+    args = parse_args()
 
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    json_dir = os.path.join(CONFIG["JSON_ROOT"], today)
-    output_dir = os.path.join(CONFIG["OUTPUT_ROOT"], today)
+    json_dir = os.path.join(CONFIG["JSON_ROOT"], args.date)
+    output_dir = os.path.join(CONFIG["OUTPUT_ROOT"], args.date)
     build_dir = CONFIG["BUILD_DIR"]
 
     # 🔥 Check JSON folder exists

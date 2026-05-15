@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 import json
 import time
 import os
+import argparse
 
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
@@ -16,9 +17,8 @@ from datetime import date
 # =========================================================
 # 🔧 CONFIG
 # =========================================================
-today = date.today().strftime("%Y-%m-%d")
-INPUT_JSON_PATH = f"{today}.json"
-OUTPUT_JSON_PATH = f"/home/dinesh/HERMES/08_job_application_pipeline/02_job_filtering/MID_LAYER_DATA/{today}_mid.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 if not HF_TOKEN:
@@ -115,6 +115,28 @@ template = PromptTemplate(
 chain = template | chat_model | parser
 
 
+def get_paths(run_date):
+    return (
+        os.path.join(SCRIPT_DIR, f"{run_date}.json"),
+        os.path.join(
+            BASE_DIR,
+            "02_job_filtering",
+            "MID_LAYER_DATA",
+            f"{run_date}_mid.json",
+        ),
+    )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Fetch and enrich job descriptions.")
+    parser.add_argument(
+        "--date",
+        default=date.today().strftime("%Y-%m-%d"),
+        help="Input date in YYYY-MM-DD format.",
+    )
+    return parser.parse_args()
+
+
 # =========================================================
 # 🔁 PROCESS SINGLE JOB (WITH LOGGING)
 # =========================================================
@@ -139,17 +161,19 @@ def process_single_job(url):
 # 🚀 MAIN PIPELINE
 # =========================================================
 def main():
+    args = parse_args()
+    input_json_path, output_json_path = get_paths(args.date)
 
-    if not os.path.exists(INPUT_JSON_PATH):
-        raise FileNotFoundError("Input JSON not found")
+    if not os.path.exists(input_json_path):
+        raise FileNotFoundError(f"Input JSON not found: {input_json_path}")
 
     # safer directory handling
-    output_dir = os.path.dirname(OUTPUT_JSON_PATH)
+    output_dir = os.path.dirname(output_json_path)
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
 
     print("[INFO] Loading JSON...")
-    with open(INPUT_JSON_PATH, "r", encoding='utf-8') as f:
+    with open(input_json_path, "r", encoding='utf-8') as f:
         data = json.load(f)
 
     jobs = data.get("jobs", [])
@@ -190,10 +214,10 @@ def main():
 
     print("[INFO] Saving output JSON...")
 
-    with open(OUTPUT_JSON_PATH, "w", encoding='utf-8') as f:
+    with open(output_json_path, "w", encoding='utf-8') as f:
         json.dump(data, f, indent=2)
 
-    print(f"[DONE] Saved to {OUTPUT_JSON_PATH}")
+    print(f"[DONE] Saved to {output_json_path}")
     print(f"[SUMMARY] Success: {success_count}, Failed: {fail_count}")
 
 

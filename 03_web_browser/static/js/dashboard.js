@@ -41,28 +41,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeDashboard() {
     console.log('🚀 Initializing Job Application Dashboard...');
-    
+
     // Initialize AOS (Animate On Scroll)
     initializeAOS();
-    
+
     // Add entrance animations
     animateEntrance();
-    
+
     // Load initial data
     loadInitialData();
-    
+
     // Setup event listeners
     setupEventListeners();
-    
+
     // Add visual effects
     createParticles();
-    
+
     // Setup keyboard shortcuts
     setupKeyboardShortcuts();
-    
+
     // Setup periodic updates
     setupPeriodicUpdates();
-    
+
     console.log('✅ Dashboard initialized successfully!');
 }
 
@@ -101,38 +101,38 @@ async function loadInitialData() {
  */
 function setupEventListeners() {
     console.log('🔧 Setting up event listeners...');
-    
+
     // Search and filter inputs
     const searchInput = document.getElementById('search-input');
     const scoreFilter = document.getElementById('score-filter');
     const sourceFilter = document.getElementById('source-filter');
     const resumeFilter = document.getElementById('resume-filter');
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', debounce(filterJobs, CONFIG.DEBOUNCE_DELAY));
     }
-    
+
     if (scoreFilter) {
         scoreFilter.addEventListener('change', filterJobs);
     }
-    
+
     if (sourceFilter) {
         sourceFilter.addEventListener('change', filterJobs);
     }
-    
+
     if (resumeFilter) {
         resumeFilter.addEventListener('change', filterJobs);
     }
-    
+
     // Refresh button
     const refreshBtn = document.getElementById('refresh-btn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshData);
     }
-    
+
     // Window resize
     window.addEventListener('resize', handleResize);
-    
+
     console.log('✅ Event listeners setup complete');
 }
 
@@ -143,24 +143,24 @@ function setupKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
         const key = e.key.toLowerCase();
         const ctrl = e.ctrlKey || e.metaKey;
-        
+
         // Ctrl/Cmd + K for search focus
         if (ctrl && key === 'k') {
             e.preventDefault();
             focusSearch();
         }
-        
+
         // Escape to clear search
         if (key === 'escape') {
             clearSearch();
         }
-        
+
         // Ctrl/Cmd + R for refresh
         if (ctrl && key === 'r') {
             e.preventDefault();
             refreshData();
         }
-        
+
         // Number keys for quick score filtering
         if (key >= '1' && key <= '3' && !ctrl) {
             const scoreMap = { '1': '90-100', '2': '80-89', '3': '60-79' };
@@ -178,29 +178,29 @@ function setupKeyboardShortcuts() {
  */
 async function loadStats() {
     console.log('📊 Loading statistics...');
-    
+
     try {
         const response = await fetch(CONFIG.API_ENDPOINTS.STATS);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         const stats = await response.json();
-        
+
         // Animate number counting
         animateNumber('total-jobs', stats.total_jobs, 1000);
         animateNumber('avg-score', stats.avg_score, 1200);
         animateNumber('resume-count', stats.resume_count, 1400);
-        
+
         // Calculate high score jobs
         const highScoreJobs = stats.score_distribution
             .filter(item => item.score_range === '90-100' || item.score_range === '80-89')
             .reduce((sum, item) => sum + item.count, 0);
         animateNumber('high-score-jobs', highScoreJobs, 1600);
-        
+
         console.log('✅ Statistics loaded successfully');
-        
+
     } catch (error) {
         console.error('❌ Error loading statistics:', error);
         throw error;
@@ -212,25 +212,25 @@ async function loadStats() {
  */
 async function loadJobs() {
     console.log('💼 Loading jobs...');
-    
+
     const loadingElement = document.getElementById('loading');
     const jobsContainer = document.getElementById('jobs-container');
-    
+
     if (loadingElement) loadingElement.style.display = 'block';
     if (jobsContainer) jobsContainer.style.opacity = '0';
-    
+
     try {
         const response = await fetch(CONFIG.API_ENDPOINTS.JOBS);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         allJobs = await response.json();
         filteredJobs = [...allJobs];
-        
+
         console.log(`✅ Loaded ${allJobs.length} jobs`);
-        
+
         // Fade out loading, fade in jobs
         if (loadingElement) {
             loadingElement.style.opacity = '0';
@@ -238,15 +238,15 @@ async function loadJobs() {
                 loadingElement.style.display = 'none';
             }, 300);
         }
-        
+
         if (jobsContainer) {
             jobsContainer.style.opacity = '1';
             renderJobs();
         }
-        
+
     } catch (error) {
         console.error('❌ Error loading jobs:', error);
-        
+
         if (loadingElement) {
             loadingElement.innerHTML = `
                 <div class="alert alert-danger" style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); color: white;">
@@ -255,7 +255,7 @@ async function loadJobs() {
                 </div>
             `;
         }
-        
+
         throw error;
     }
 }
@@ -265,41 +265,42 @@ async function loadJobs() {
  */
 function filterJobs() {
     console.log('🔍 Filtering jobs...');
-    
+
     const searchTerm = document.getElementById('search-input')?.value.toLowerCase() || '';
     const scoreFilter = document.getElementById('score-filter')?.value || '';
     const sourceFilter = document.getElementById('source-filter')?.value || '';
     const resumeFilter = document.getElementById('resume-filter')?.value || '';
-    
+
     // Update current filters
     currentFilters = { search: searchTerm, score: scoreFilter, source: sourceFilter, resume: resumeFilter };
-    
+
     filteredJobs = allJobs.filter(job => {
         // Search filter
         if (searchTerm) {
             const searchableText = `${job.job_title} ${job.company_name} ${job.location}`.toLowerCase();
             if (!searchableText.includes(searchTerm)) return false;
         }
-        
+
         // Score filter
         if (scoreFilter) {
             const score = job.score || 0;
             if (scoreFilter === '90-100' && score < 90) return false;
             if (scoreFilter === '80-89' && (score < 80 || score >= 90)) return false;
+            if (scoreFilter === '70-79' && (score < 70 || score >= 80)) return false;
             if (scoreFilter === '60-79' && (score < 60 || score >= 80)) return false;
-            if (scoreFilter === '0-59' && score >= 60) return false;
+            if ((scoreFilter === '0-59' || scoreFilter === '0-69') && score >= Number(scoreFilter.split('-')[1]) + 1) return false;
         }
-        
+
         // Source filter
         if (sourceFilter && job.source !== sourceFilter) return false;
-        
+
         // Resume filter
-        if (resumeFilter === 'available' && !job.resume_exists) return false;
-        if (resumeFilter === 'unavailable' && job.resume_exists) return false;
-        
+        if ((resumeFilter === 'available' || resumeFilter === 'true') && !job.resume_exists) return false;
+        if ((resumeFilter === 'unavailable' || resumeFilter === 'false') && job.resume_exists) return false;
+
         return true;
     });
-    
+
     console.log(`📋 Filtered ${filteredJobs.length} jobs from ${allJobs.length} total`);
     renderJobs();
 }
@@ -309,31 +310,31 @@ function filterJobs() {
  */
 function renderJobs() {
     console.log('🎨 Rendering jobs...');
-    
+
     const container = document.getElementById('jobs-container');
     if (!container) return;
-    
+
     if (filteredJobs.length === 0) {
         renderEmptyState(container);
         return;
     }
-    
+
     // Use document fragment for better performance
     const fragment = document.createDocumentFragment();
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = filteredJobs.map((job, index) => createJobCard(job, index)).join('');
-    
+
     while (tempDiv.firstChild) {
         fragment.appendChild(tempDiv.firstChild);
     }
-    
+
     // Clear and append efficiently
     container.innerHTML = '';
     container.appendChild(fragment);
-    
+
     // Re-initialize AOS for new elements
     AOS.refresh();
-    
+
     console.log(`✅ Rendered ${filteredJobs.length} job cards`);
 }
 
@@ -343,35 +344,45 @@ function renderJobs() {
 function createJobCard(job, index) {
     const scoreClass = getScoreClass(job.score);
     const applyUrl = job.apply_url?.trim() || null;
-    
+    const jobId = String(job.job_unique_id || '');
+    const companyName = escapeHtml(job.company_name || 'Unknown');
+    const jobTitle = escapeHtml(job.job_title || 'Untitled role');
+    const location = escapeHtml(job.location || '');
+    const source = escapeHtml(job.source || 'Unknown');
+    const experienceRequired = escapeHtml(job.experience_required || '');
+    const resumeFilename = encodeURIComponent(job.resume_filename || '');
+    const jobIdForJs = escapeJsString(jobId);
+    const jobIdForUrl = encodeURIComponent(jobId);
+    const safeApplyUrl = isSafeHttpUrl(applyUrl) ? escapeHtml(applyUrl) : null;
+
     return `
-        <div class="job-card" 
-             data-aos="fade-up" 
-             data-aos-delay="${index * 50}" 
-             data-job-id="${job.job_unique_id}"
-             onclick="handleJobCardClick(event, '${job.job_unique_id}')">
+        <div class="job-card"
+             data-aos="fade-up"
+             data-aos-delay="${index * 50}"
+             data-job-id="${escapeHtml(jobId)}"
+             onclick="handleJobCardClick(event, '${jobIdForJs}')">
             <div class="row align-items-center">
                 <div class="col-md-1">
                     <div class="company-logo" onclick="animateCompanyLogo(event, this)">
-                        ${job.company_name.charAt(0).toUpperCase()}
+                        ${companyName.charAt(0).toUpperCase() || '?'}
                     </div>
                 </div>
                 <div class="col-md-7">
                     <h5 class="fw-bold mb-2 job-title" onclick="highlightText(event, this)">
-                        ${job.job_title}
+                        ${jobTitle}
                     </h5>
                     <p class="text-muted mb-2">
-                        <i class="fas fa-building me-2"></i>${job.company_name}
-                        ${job.location && job.location !== 'Not specified' ? 
-                            `<i class="fas fa-map-marker-alt ms-3 me-2"></i>${job.location}` : ''}
+                        <i class="fas fa-building me-2"></i>${companyName}
+                        ${job.location && job.location !== 'Not specified' ?
+                            `<i class="fas fa-map-marker-alt ms-3 me-2"></i>${location}` : ''}
                     </p>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <span class="source-badge" onclick="animateBadge(event, this)">${job.source}</span>
-                        ${job.resume_exists ? 
-                            '<span class="resume-badge" onclick="animateBadge(event, this)"><i class="fas fa-file-pdf me-1"></i>Resume Ready</span>' : 
+                        <span class="source-badge" onclick="animateBadge(event, this)">${source}</span>
+                        ${job.resume_exists ?
+                            '<span class="resume-badge" onclick="animateBadge(event, this)"><i class="fas fa-file-pdf me-1"></i>Resume Ready</span>' :
                             '<span class="badge bg-secondary">No Resume</span>'}
-                        ${job.experience_required?.trim() ? 
-                            `<span class="badge bg-info">${job.experience_required}</span>` : ''}
+                        ${job.experience_required?.trim() ?
+                            `<span class="badge bg-info">${experienceRequired}</span>` : ''}
                     </div>
                 </div>
                 <div class="col-md-2 text-center">
@@ -382,17 +393,17 @@ function createJobCard(job, index) {
                 </div>
                 <div class="col-md-2 text-end">
                     <div class="btn-group-vertical" role="group">
-                        <a href="/job/${job.job_unique_id}" 
-                           class="btn btn-outline-primary btn-sm mb-2" 
+                        <a href="/job/${jobIdForUrl}"
+                           class="btn btn-outline-primary btn-sm mb-2"
                            onclick="animateButton(event, this)">
                             <i class="fas fa-eye me-1"></i>View Details
                         </a>
-                        ${applyUrl ? 
-                            `<a href="${applyUrl}" target="_blank" class="btn btn-outline-success btn-sm mb-2" onclick="animateButton(event, this)">
+                        ${safeApplyUrl ?
+                            `<a href="${safeApplyUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm mb-2" onclick="animateButton(event, this)">
                                 <i class="fas fa-external-link-alt me-1"></i>Apply
                             </a>` : ''}
-                        ${job.resume_exists ? 
-                            `<a href="/download/resume/${job.resume_filename}" class="btn btn-outline-danger btn-sm" onclick="animateButton(event, this)">
+                        ${job.resume_exists ?
+                            `<a href="/download/resume/${resumeFilename}" class="btn btn-outline-danger btn-sm" onclick="animateButton(event, this)">
                                 <i class="fas fa-download me-1"></i>Resume
                             </a>` : ''}
                     </div>
@@ -435,25 +446,25 @@ function getScoreClass(score) {
 function animateNumber(elementId, targetValue, duration) {
     const element = document.getElementById(elementId);
     if (!element) return;
-    
+
     const startValue = 0;
     const startTime = performance.now();
-    
+
     function updateNumber(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Easing function
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
         const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
-        
+
         element.textContent = currentValue;
-        
+
         if (progress < 1) {
             requestAnimationFrame(updateNumber);
         }
     }
-    
+
     requestAnimationFrame(updateNumber);
 }
 
@@ -473,10 +484,10 @@ function animateEntrance() {
 function createParticles() {
     const container = document.querySelector('.dashboard-container');
     if (!container) return;
-    
+
     // Create particles efficiently with requestAnimationFrame
     const fragment = document.createDocumentFragment();
-    
+
     for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -495,7 +506,7 @@ function createParticles() {
         `;
         fragment.appendChild(particle);
     }
-    
+
     container.appendChild(fragment);
 }
 
@@ -579,13 +590,13 @@ function clearFilters() {
 
 async function refreshData() {
     console.log('🔄 Refreshing data...');
-    
+
     const refreshBtn = document.getElementById('refresh-btn');
     if (refreshBtn) {
         refreshBtn.disabled = true;
         refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Refreshing...';
     }
-    
+
     try {
         await loadInitialData();
         showNotification('Data refreshed successfully!', 'success');
@@ -642,13 +653,13 @@ function showNotification(message, type = 'info') {
         min-width: 300px;
         animation: slideInRight 0.3s ease;
     `;
-    notification.innerHTML = `
-        <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
-        ${message}
-    `;
-    
+    const icon = document.createElement('i');
+    icon.className = `fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'} me-2`;
+    notification.appendChild(icon);
+    notification.appendChild(document.createTextNode(message));
+
     document.body.appendChild(notification);
-    
+
     // Auto remove after 3 seconds
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease';
@@ -676,13 +687,39 @@ function showErrorState(message) {
     }
 }
 
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function escapeJsString(value) {
+    return String(value ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r');
+}
+
+function isSafeHttpUrl(value) {
+    try {
+        const url = new URL(value);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
+
 /**
  * Periodic Updates
  */
 function setupPeriodicUpdates() {
     // Update last updated time every minute
     setInterval(updateLastUpdated, 60000);
-    
+
     // Optional: Auto-refresh data every 5 minutes
     // setInterval(refreshData, 300000);
 }

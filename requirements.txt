@@ -1,0 +1,8 @@
+beautifulsoup4==4.12.3
+Flask==2.3.3
+Flask-CORS==4.0.0
+Jinja2==3.1.2
+langchain-core==0.3.59
+langchain-huggingface==0.1.2
+pydantic==2.10.6
+requests==2.32.3

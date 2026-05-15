@@ -32,15 +32,27 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
-          cache-dependency-path: 03_web_browser/requirements.txt
+          cache-dependency-path: requirements.txt
 
       - name: Install runtime dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r 03_web_browser/requirements.txt
+          pip install -r requirements.txt
 
       - name: Check Python syntax
         run: python -m compileall 01_job_sourcing 02_job_filtering 02_resume_engine 03_web_browser resume
+
+      - name: Validate pipeline dependencies import
+        run: |
+          python - <<'PY'
+          import bs4
+          import flask
+          import jinja2
+          import langchain_core
+          import langchain_huggingface
+          import pydantic
+          import requests
+          PY
 
       - name: Validate Flask app imports
         run: |
@@ -52,7 +64,7 @@ jobs:
           spec.loader.exec_module(module)
 
           routes = sorted(rule.rule for rule in module.app.url_map.iter_rules())
-          required_routes = {"/", "/api/jobs", "/api/stats"}
+          required_routes = {"/", "/admin", "/api/jobs", "/api/stats", "/api/admin/jobs"}
           missing_routes = required_routes.difference(routes)
           if missing_routes:
               raise SystemExit(f"Missing routes: {sorted(missing_routes)}")

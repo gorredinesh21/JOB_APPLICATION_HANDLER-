@@ -1,6 +1,7 @@
 import json
 import os
 import sqlite3
+import argparse
 
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain_core.prompts import PromptTemplate
@@ -12,9 +13,6 @@ from datetime import date
 # 🔧 CONFIG
 # =========================================================
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-today = date.today().strftime("%Y-%m-%d")
-INPUT_JSON_PATH = os.path.join(BASE_DIR, "02_job_filtering", f"{today}_mid.json")
-OUTPUT_JSON_PATH = os.path.join(BASE_DIR, "02_job_filtering/SCORED", f"{today}_scored.json")
 DB_PATH = os.path.join(BASE_DIR, "jobs_new.db")
 RESUME_PATH = os.path.join(BASE_DIR, "resume", "resume.txt")
 
@@ -73,6 +71,33 @@ template = PromptTemplate(
 chain = template | chat_model | parser
 
 
+def get_paths(run_date):
+    return (
+        os.path.join(
+            BASE_DIR,
+            "02_job_filtering",
+            "MID_LAYER_DATA",
+            f"{run_date}_mid.json",
+        ),
+        os.path.join(
+            BASE_DIR,
+            "02_job_filtering",
+            "SCORED",
+            f"{run_date}_scored.json",
+        ),
+    )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Score jobs and store them in SQLite.")
+    parser.add_argument(
+        "--date",
+        default=date.today().strftime("%Y-%m-%d"),
+        help="Input date in YYYY-MM-DD format.",
+    )
+    return parser.parse_args()
+
+
 # =========================================================
 # 📄 LOAD RESUME
 # =========================================================
@@ -126,12 +151,18 @@ def insert_into_db(data):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    cursor.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_job_postings_job_unique_id
+        ON job_postings(job_unique_id)
+        WHERE job_unique_id IS NOT NULL
+    """)
+
     for job in data.get("jobs", []):
 
         ext_id = get_external_job_id(job)
 
         cursor.execute("""
-            INSERT INTO job_postings (
+            INSERT OR REPLACE INTO job_postings (
                 job_unique_id,
                 job_title,
                 company_name,
@@ -175,12 +206,14 @@ def insert_into_db(data):
 # 🚀 MAIN
 # =========================================================
 def main():
+    args = parse_args()
+    input_json_path, output_json_path = get_paths(args.date)
 
-    if not os.path.exists(INPUT_JSON_PATH):
-        raise FileNotFoundError("Input JSON not found")
+    if not os.path.exists(input_json_path):
+        raise FileNotFoundError(f"Input JSON not found: {input_json_path}")
 
     print("[INFO] Loading JSON...")
-    with open(INPUT_JSON_PATH, "r", encoding="utf-8") as f:
+    with open(input_json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     resume_text = load_resume()
@@ -205,7 +238,9 @@ def main():
 
     print("[INFO] Saving updated JSON...")
 
-    with open(OUTPUT_JSON_PATH, "w", encoding="utf-8") as f:
+    os.makedirs(os.path.dirname(output_json_path), exist_ok=True)
+
+    with open(output_json_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
     print("[INFO] Inserting into DB...")
